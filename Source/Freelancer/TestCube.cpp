@@ -28,7 +28,7 @@ void ATestCube::Tick(float DeltaTime)
 void ATestCube::Use()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Using Cube!"));
-	BoxComponent->AddForce(GetActorUpVector() * 500.f);
+	BoxComponent->AddImpulse(GetActorUpVector() * 200000.f);
 }
 
 
