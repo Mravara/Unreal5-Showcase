@@ -9,7 +9,7 @@
 #include "TestCube.generated.h"
 
 UCLASS()
-class FREELANCER_API ATestCube : public AActor, public IIUsable
+class FREELANCER_API ATestCube : public AActor, public IUsable
 {
 	GENERATED_BODY()
 

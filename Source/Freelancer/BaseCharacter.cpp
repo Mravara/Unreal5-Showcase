@@ -130,7 +130,7 @@ void ABaseCharacter::Use()
 		const FVector EndLocation = StartLocation + GetFollowCamera()->GetForwardVector() * (UseDistance + CameraBoom->TargetArmLength);
 		if (GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, TraceChannel))
 		{
-			if (IIUsable* UsableInterface = Cast<IIUsable>(Hit.GetActor()))
+			if (IUsable* UsableInterface = Cast<IUsable>(Hit.GetActor()))
 			{
 				UsableInterface->Use();
 			}

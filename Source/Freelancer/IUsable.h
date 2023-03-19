@@ -8,7 +8,7 @@
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UIUsable : public UInterface
+class UUsable : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,7 +16,7 @@ class UIUsable : public UInterface
 /**
  * 
  */
-class FREELANCER_API IIUsable
+class FREELANCER_API IUsable
 {
 	GENERATED_BODY()
 
