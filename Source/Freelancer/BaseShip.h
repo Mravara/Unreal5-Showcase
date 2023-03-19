@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IUsable.h"
 #include "GameFramework/Pawn.h"
 #include "BaseShip.generated.h"
 
 UCLASS()
-class FREELANCER_API ABaseShip : public APawn
+class FREELANCER_API ABaseShip : public APawn, public IUsable
 {
 	GENERATED_BODY()
 
@@ -26,4 +27,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Called when the object is used
+	virtual void Use() override;
 };

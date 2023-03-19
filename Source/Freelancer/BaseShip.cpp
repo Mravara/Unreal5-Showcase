@@ -32,3 +32,8 @@ void ABaseShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ABaseShip::Use()
+{
+	// possess
+}
+

@@ -75,7 +75,7 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	/** Called for using input */
-	void Use();
+	void UseObject();
 
 	/** Called for camera zoom input */
 	void ZoomCamera(const FInputActionValue& Value);

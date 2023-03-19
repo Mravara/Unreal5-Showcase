@@ -81,7 +81,7 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ABaseCharacter::Look);
 
 		// Use
-		EnhancedInputComponent->BindAction(UseAction, ETriggerEvent::Triggered, this, &ABaseCharacter::Use);
+		EnhancedInputComponent->BindAction(UseAction, ETriggerEvent::Triggered, this, &ABaseCharacter::UseObject);
 
 		// Zoom Camera
 		EnhancedInputComponent->BindAction(CameraZoomAction, ETriggerEvent::Triggered, this, &ABaseCharacter::ZoomCamera);
@@ -121,7 +121,7 @@ void ABaseCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void ABaseCharacter::Use()
+void ABaseCharacter::UseObject()
 {
 	if (Controller != nullptr)
 	{
