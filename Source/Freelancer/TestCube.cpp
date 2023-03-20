@@ -27,7 +27,7 @@ void ATestCube::Tick(float DeltaTime)
 
 }
 
-void ATestCube::Use(APawn* Pawn)
+void ATestCube::Use_Implementation(APawn* Pawn)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Using Cube!"));
 	CubeMeshComponent->AddImpulse(FVector::UpVector * 200000.f);

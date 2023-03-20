@@ -22,5 +22,6 @@ class FREELANCER_API IUsable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void Use(APawn* Pawn) = 0;
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void Use(APawn* Pawn);
 };

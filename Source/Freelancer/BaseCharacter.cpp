@@ -156,9 +156,9 @@ void ABaseCharacter::UseObject()
 		const FVector EndLocation = StartLocation + GetFollowCamera()->GetForwardVector() * (UseDistance + CameraBoom->TargetArmLength);
 		if (GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, TraceChannel))
 		{
-			if (IUsable* UsableInterface = Cast<IUsable>(Hit.GetActor()))
+			if(Hit.GetActor()->Implements<UUsable>())
 			{
-				UsableInterface->Use(this);
+				IUsable::Execute_Use(Hit.GetActor(), this);
 			}
 		}
 		DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 3.0f, 0, 2.0f);

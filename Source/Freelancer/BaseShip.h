@@ -82,7 +82,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Called when the object is used
-	virtual void Use(APawn* Pawn) override;
+	virtual void Use_Implementation(APawn* Pawn) override;
 
 	// Called when pawn gets possessed
 	virtual void OnPossess() override;

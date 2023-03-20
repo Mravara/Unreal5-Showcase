@@ -30,6 +30,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called when the object is used
-	virtual void Use(APawn* Pawn) override;
+	virtual void Use_Implementation(APawn* Pawn) override;
 
 };

@@ -93,7 +93,7 @@ void ABaseShip::ZoomCamera(const FInputActionValue& Value)
 	}
 }
 
-void ABaseShip::Use(APawn* Pawn)
+void ABaseShip::Use_Implementation(APawn* Pawn)
 {
 	Possess(Pawn);
 }
