@@ -9,6 +9,8 @@ ATestCube::ATestCube()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CubeMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh Component"));
+	AddOwnedComponent(CubeMeshComponent);
 }
 
 // Called when the game starts or when spawned
@@ -28,7 +30,7 @@ void ATestCube::Tick(float DeltaTime)
 void ATestCube::Use()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Using Cube!"));
-	BoxComponent->AddImpulse(GetActorUpVector() * 200000.f);
+	CubeMeshComponent->AddImpulse(FVector::UpVector * 200000.f);
 }
 
 

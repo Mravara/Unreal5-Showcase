@@ -59,6 +59,7 @@ class FREELANCER_API ABaseCharacter : public ACharacter
 	
 	UPROPERTY(EditAnywhere, Category = "Use")
 	TEnumAsByte<ECollisionChannel> TraceChannel;
+	
 
 public:
 	// Sets default values for this character's properties

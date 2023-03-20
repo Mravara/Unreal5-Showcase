@@ -24,8 +24,7 @@ protected:
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UBoxComponent* BoxComponent;
-
+	TObjectPtr<UStaticMeshComponent> CubeMeshComponent;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
