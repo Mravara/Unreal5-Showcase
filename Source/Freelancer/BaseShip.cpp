@@ -29,7 +29,7 @@ ABaseShip::ABaseShip()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Boom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // avoid rotating when the character does
-	CameraBoom->TargetArmLength = 400.f;
+	CameraBoom->TargetArmLength = 800.f;
 	CameraBoom->SetRelativeRotation(FRotator(-30.f, 0.f, 0.f));
 
 	// Create a camera...
@@ -155,7 +155,7 @@ void ABaseShip::FlyUp(const FInputActionValue& Value)
 	UE_LOG(LogTemp, Warning, TEXT("Up!"));
 	if (Controller)
 	{
-		StaticMeshComponent->AddForce(FVector::UpVector * 50000.f);
+		StaticMeshComponent->AddForce(FVector::UpVector * 500000.f);
 	}
 }
 
@@ -164,7 +164,7 @@ void ABaseShip::FlyDown(const FInputActionValue& Value)
 	if (Controller)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Down!"));
-		StaticMeshComponent->AddForce(FVector::UpVector * -50000.f);
+		StaticMeshComponent->AddForce(FVector::UpVector * -500000.f);
 	}
 }
 
