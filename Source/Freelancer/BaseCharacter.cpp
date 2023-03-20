@@ -161,12 +161,14 @@ void ABaseCharacter::UseObject()
 				IUsable::Execute_Use(Hit.GetActor(), this);
 			}
 		}
-		DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 3.0f, 0, 2.0f);
+		// DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 3.0f, 0, 2.0f);
 	}
 }
 
 void ABaseCharacter::ZoomCamera(const FInputActionValue& Value)
 {
+	return;
+	
 	if (Controller)
 	{
 		const float ScrollValue = Value.Get<float>();

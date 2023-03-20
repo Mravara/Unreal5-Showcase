@@ -46,22 +46,6 @@ class FREELANCER_API ABaseCharacter : public ACharacter, public IPossessable
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* CameraZoomAction;
 
-	// Camera Zoom Multiplier
-	UPROPERTY(EditAnywhere, Category = "Camera Zoom")
-	float CameraZoomMultiplier = 10.f;
-
-	// Min Zoom
-	UPROPERTY(EditAnywhere, Category = "Camera Zoom")
-	float MinCameraZoom = 300.f;
-
-	// Max Zoom
-	UPROPERTY(EditAnywhere, Category = "Camera Zoom")
-	float MaxCameraZoom = 700.f;
-
-	// Use Trace Distance
-	UPROPERTY(EditAnywhere, Category = "Use")
-	float UseDistance = 500.f;
-
 	// Use Trace Channel
 	UPROPERTY(EditAnywhere, Category = "Use")
 	TEnumAsByte<ECollisionChannel> TraceChannel;
@@ -70,6 +54,25 @@ public:
 	// Sets default values for this character's properties
 	ABaseCharacter(const FObjectInitializer& OI);
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Returns CameraBoom subobject
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	// Returns FollowCamera subobject
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	// Called when pawn gets possessed
+	virtual void OnPossess() override;
+
+	// Called when pawn gets unpossessed
+	virtual void OnUnPossess() override;
+
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -88,23 +91,22 @@ protected:
 	
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	// Camera Zoom Multiplier
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera Zoom")
+	float CameraZoomMultiplier = 10.f;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	// Min Zoom
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera Zoom")
+	float MinCameraZoom = 300.f;
 
-	// Returns CameraBoom subobject
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	// Max Zoom
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera Zoom")
+	float MaxCameraZoom = 700.f;
 
-	// Returns FollowCamera subobject
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	// Use Trace Distance
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Use")
+	float UseDistance = 500.f;
 
-	// Called when pawn gets possessed
-	virtual void OnPossess() override;
-
-	// Called when pawn gets unpossessed
-	virtual void OnUnPossess() override;
 	
 private:
 	void SetupInput();
