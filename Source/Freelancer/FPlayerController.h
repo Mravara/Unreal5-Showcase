@@ -16,8 +16,9 @@ class FREELANCER_API AFPlayerController : public APlayerController
 
 	AFPlayerController();
 
-public:
-	bool PossesPawn(APawn* Pawn);
+protected:
+	void OnPossess(APawn* InPawn) override;
+	void OnUnPossess() override;
 
 private:
 	UPROPERTY()

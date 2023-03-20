@@ -9,7 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
-#include "IUsable.h"
+#include "Usable.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter(const FObjectInitializer& OI)
@@ -46,14 +46,7 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Input Mapping Context
-	if (const APlayerController* PlayerController = Cast<APlayerController>(Controller))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(MappingContext, 0);
-		}
-	}
+	// SetupInput();
 }
 
 // Called every frame
@@ -88,11 +81,44 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	}
 }
 
+void ABaseCharacter::OnPossess()
+{
+	SetupInput();
+}
+
+void ABaseCharacter::OnUnPossess()
+{
+	RemoveInput();
+}
+
+void ABaseCharacter::SetupInput()
+{
+	// Input Mapping Context
+	if (const APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(MappingContext, 0);
+		}
+	}
+}
+
+void ABaseCharacter::RemoveInput()
+{
+	if (const APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->RemoveMappingContext(MappingContext);
+		}
+	}
+}
+
 void ABaseCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2d MovementVector = Value.Get<FVector2d>();
 
-	if (Controller != nullptr)
+	if (Controller)
 	{
 		// get forward rotator
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -110,7 +136,7 @@ void ABaseCharacter::Move(const FInputActionValue& Value)
 
 void ABaseCharacter::Look(const FInputActionValue& Value)
 {
-	if (Controller != nullptr)
+	if (Controller)
 	{
 		// input is a Vector2D
 		const FVector2D LookAxisVector = Value.Get<FVector2D>();
@@ -123,7 +149,7 @@ void ABaseCharacter::Look(const FInputActionValue& Value)
 
 void ABaseCharacter::UseObject()
 {
-	if (Controller != nullptr)
+	if (Controller)
 	{
 		FHitResult Hit;
 		const FVector StartLocation = GetFollowCamera()->GetComponentLocation();
@@ -132,7 +158,7 @@ void ABaseCharacter::UseObject()
 		{
 			if (IUsable* UsableInterface = Cast<IUsable>(Hit.GetActor()))
 			{
-				UsableInterface->Use();
+				UsableInterface->Use(this);
 			}
 		}
 		DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 3.0f, 0, 2.0f);
@@ -141,7 +167,7 @@ void ABaseCharacter::UseObject()
 
 void ABaseCharacter::ZoomCamera(const FInputActionValue& Value)
 {
-	if (Controller != nullptr)
+	if (Controller)
 	{
 		const float ScrollValue = Value.Get<float>();
 		

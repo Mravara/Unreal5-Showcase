@@ -3,11 +3,30 @@
 
 #include "FPlayerController.h"
 
+#include "Possessable.h"
+
 AFPlayerController::AFPlayerController()
 {
 }
 
-bool AFPlayerController::PossesPawn(APawn* PawnToPosses)
+void AFPlayerController::OnPossess(APawn* InPawn)
 {
-	return true;
+	Super::OnPossess(InPawn);
+	
+	if (IPossessable* PossessableInterface = Cast<IPossessable>(InPawn))
+	{
+		PossessableInterface->OnPossess();
+		PossessedPawn = InPawn;
+	}
+}
+
+void AFPlayerController::OnUnPossess()
+{
+	Super::OnUnPossess();
+
+	if (IPossessable* PossessableInterface = Cast<IPossessable>(PossessedPawn))
+	{
+		PossessableInterface->OnUnPossess();
+		PossessedPawn = nullptr;
+	}
 }

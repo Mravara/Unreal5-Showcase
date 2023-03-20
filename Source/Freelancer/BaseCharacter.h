@@ -3,63 +3,68 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Possessable.h"
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
 struct FInputActionValue;
 
 UCLASS()
-class FREELANCER_API ABaseCharacter : public ACharacter
+class FREELANCER_API ABaseCharacter : public ACharacter, public IPossessable
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
+	// Camera boom positioning the camera behind the character
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
-	/** Follow camera */
+	// Follow camera 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 	
-	/** MappingContext */
+	// MappingContext 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* MappingContext;
 
-	/** Jump Input Action */
+	// Jump Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
 
-	/** Move Input Action */
+	// Move Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
-	/** Look Input Action */
+	// Look Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
-	/** Use Input Action */
+	// Use Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* UseAction;
 
-	/** Use Input Action */
+	// Use Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* CameraZoomAction;
 
+	// Camera Zoom Multiplier
 	UPROPERTY(EditAnywhere, Category = "Camera Zoom")
 	float CameraZoomMultiplier = 10.f;
 
+	// Min Zoom
 	UPROPERTY(EditAnywhere, Category = "Camera Zoom")
 	float MinCameraZoom = 300.f;
 
+	// Max Zoom
 	UPROPERTY(EditAnywhere, Category = "Camera Zoom")
 	float MaxCameraZoom = 700.f;
 
+	// Use Trace Distance
 	UPROPERTY(EditAnywhere, Category = "Use")
 	float UseDistance = 500.f;
-	
+
+	// Use Trace Channel
 	UPROPERTY(EditAnywhere, Category = "Use")
 	TEnumAsByte<ECollisionChannel> TraceChannel;
-	
 
 public:
 	// Sets default values for this character's properties
@@ -69,16 +74,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/** Called for movement input */
+	// Called for movement input
 	void Move(const FInputActionValue& Value);
 
-	/** Called for looking input */
+	// Called for looking input
 	void Look(const FInputActionValue& Value);
 
-	/** Called for using input */
+	// Called for using input
 	void UseObject();
 
-	/** Called for camera zoom input */
+	// Called for camera zoom input
 	void ZoomCamera(const FInputActionValue& Value);
 	
 
@@ -89,10 +94,20 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	/** Returns CameraBoom subobject **/
+	// Returns CameraBoom subobject
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	/** Returns FollowCamera subobject **/
+	// Returns FollowCamera subobject
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	// Called when pawn gets possessed
+	virtual void OnPossess() override;
+
+	// Called when pawn gets unpossessed
+	virtual void OnUnPossess() override;
+	
+private:
+	void SetupInput();
+	void RemoveInput();
 
 };

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "IUsable.h"
+#include "Usable.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "TestCube.generated.h"
@@ -13,6 +13,9 @@ class FREELANCER_API ATestCube : public AActor, public IUsable
 {
 	GENERATED_BODY()
 
+	// Mesh
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	TObjectPtr<UStaticMeshComponent> CubeMeshComponent;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -22,14 +25,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UStaticMeshComponent> CubeMeshComponent;
-	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called when the object is used
-	virtual void Use() override;
+	virtual void Use(APawn* Pawn) override;
 
 };
