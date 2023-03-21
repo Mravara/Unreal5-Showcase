@@ -168,7 +168,8 @@ void ABaseCharacter::UseObject()
 void ABaseCharacter::ZoomCamera(const FInputActionValue& Value)
 {
 	return;
-	
+
+	// moved to blueprint (CameraComponent)
 	if (Controller)
 	{
 		const float ScrollValue = Value.Get<float>();
