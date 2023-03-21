@@ -93,7 +93,7 @@ protected:
 public:	
 	// Camera Zoom Multiplier
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera Zoom")
-	float CameraZoomMultiplier = 10.f;
+	float CameraZoomMultiplier = 50.f;
 
 	// Min Zoom
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera Zoom")
