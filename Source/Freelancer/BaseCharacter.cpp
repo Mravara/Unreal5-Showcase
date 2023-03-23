@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
+#include "FPlayerCameraManager.h"
 #include "Usable.h"
 
 // Sets default values
@@ -22,19 +23,23 @@ ABaseCharacter::ABaseCharacter(const FObjectInitializer& OI)
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
+	// Create Camera Manager
+	PlayerCameraManager = CreateDefaultSubobject<UFPlayerCameraManager>(TEXT("Player Camera Managerz"));
+	AddOwnedComponent(PlayerCameraManager);
+
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
-
+	//
 	// Create camera boom
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Boom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // avoid rotating when the character does
 	CameraBoom->TargetArmLength = 400.f;
 	CameraBoom->SetRelativeRotation(FRotator(-30.f, 0.f, 0.f));
-
+	
 	// Create a camera...
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Follow Camera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -46,7 +51,7 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// SetupInput();
+	PlayerCameraManager->Init(FollowCamera, CameraBoom);
 }
 
 // Called every frame
@@ -167,16 +172,15 @@ void ABaseCharacter::UseObject()
 
 void ABaseCharacter::ZoomCamera(const FInputActionValue& Value)
 {
-	return;
-
-	// moved to blueprint (CameraComponent)
 	if (Controller)
 	{
-		const float ScrollValue = Value.Get<float>();
-		
-		// raycast and check hit objects
-		const float NewCameraZoom =  FMath::Clamp(CameraBoom->TargetArmLength + ScrollValue * CameraZoomMultiplier, MinCameraZoom, MaxCameraZoom);
-		CameraBoom->TargetArmLength = NewCameraZoom;
+		// const float ScrollValue = Value.Get<float>();
+		//
+		// // raycast and check hit objects
+		// const float NewCameraZoom =  FMath::Clamp(CameraBoom->TargetArmLength + ScrollValue * CameraZoomMultiplier, MinCameraZoom, MaxCameraZoom);
+		// CameraBoom->TargetArmLength = NewCameraZoom;
+
+		PlayerCameraManager->ZoomCamera(Value.Get<float>());
 	}
 }
 
