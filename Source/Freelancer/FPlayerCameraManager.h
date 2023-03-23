@@ -62,6 +62,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Camera Manager")
 	float DefaultZoom = 400.f;
+
+	UPROPERTY(EditAnywhere, Category = "Camera Manager")
+	float MinZoom = 300.f;
+
+	UPROPERTY(EditAnywhere, Category = "Camera Manager")
+	float MaxZoom = 700.f;
 	
 	UPROPERTY(EditAnywhere, Category = "Camera Manager")
 	float ZoomStep = 50.f;

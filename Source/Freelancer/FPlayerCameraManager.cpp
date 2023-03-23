@@ -3,6 +3,7 @@
 
 #include "FPlayerCameraManager.h"
 
+#include "MathUtil.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values for this component's properties
@@ -49,7 +50,7 @@ void UFPlayerCameraManager::ZoomCamera(float Direction)
 {
 	StartingZoom = CameraBoom->TargetArmLength;
 	
-	TargetZoom = TargetZoom + ZoomStep * Direction;
+	TargetZoom = FMathf::Clamp(TargetZoom + ZoomStep * Direction, MinZoom, MaxZoom);
 
 	CurrentZoomDuration = 0.f;
 	
@@ -60,15 +61,15 @@ void UFPlayerCameraManager::UpdateCameraZoom(const float DeltaTime)
 {
 	const float NormalizedTime = CurrentZoomDuration / ZoomDuration;
 
-	const float CurvedTime = ZoomCurve->GetFloatValue(NormalizedTime); 
-	
-	const float NewZoom = FMath::Lerp(StartingZoom, TargetZoom, CurvedTime);
-
-	CurrentZoomDuration += DeltaTime;
-
 	if (NormalizedTime < 1.f)
 	{
+		const float CurvedTime = ZoomCurve->GetFloatValue(NormalizedTime);
+
+		const float NewZoom = FMath::Lerp(StartingZoom, TargetZoom, CurvedTime);
+
 		CameraBoom->TargetArmLength = NewZoom;
+		
+		CurrentZoomDuration += DeltaTime;
 	}
 	else
 	{
