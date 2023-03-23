@@ -47,9 +47,13 @@ class FREELANCER_API ABaseCharacter : public ACharacter, public IPossessable
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> UseAction;
 
-	// Use Input Action 
+	// Zoom Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> CameraZoomAction;
+
+	// Switch Shoulder Input Action 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> CameraSwitchShoulderAction;
 
 	// Use Trace Channel
 	UPROPERTY(EditAnywhere, Category = "Use")
@@ -93,6 +97,9 @@ protected:
 
 	// Called for camera zoom input
 	void ZoomCamera(const FInputActionValue& Value);
+
+	// Called for camera shoulder switch
+	void CameraSwitchShoulder();
 	
 
 public:	

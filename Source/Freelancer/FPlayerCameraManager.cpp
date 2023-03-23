@@ -4,6 +4,7 @@
 #include "FPlayerCameraManager.h"
 
 #include "MathUtil.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values for this component's properties
@@ -42,7 +43,7 @@ void UFPlayerCameraManager::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 	if (IsUpdatingCameraPosition)
 	{
-		UpdateCameraPosition(DeltaTime);
+		UpdateCameraShoulderPosition(DeltaTime);
 	}
 }
 
@@ -76,11 +77,12 @@ void UFPlayerCameraManager::UpdateCameraZoom(const float DeltaTime)
 		CameraBoom->TargetArmLength = TargetZoom;
 		IsUpdatingCameraZoom = false;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, FString::Printf(TEXT("%f"), CameraBoom->TargetArmLength));
 }
 
-void UFPlayerCameraManager::RepositionCamera()
+void UFPlayerCameraManager::SwitchShoulder()
 {
+	StartingCameraShoulderPosition = FollowCamera->GetRelativeLocation();
+	
 	CameraTargetShoulderPosition = CameraTargetShoulderPosition * -1.f;
 
 	CurrentCameraTransitionDuration = 0.f;
@@ -88,10 +90,24 @@ void UFPlayerCameraManager::RepositionCamera()
 	IsUpdatingCameraPosition = true;
 }
 
-void UFPlayerCameraManager::UpdateCameraPosition(const float DeltaTime)
+void UFPlayerCameraManager::UpdateCameraShoulderPosition(const float DeltaTime)
 {
 	float NormalizedTime = CurrentCameraTransitionDuration / CameraTransitionDuration;
-	
-	IsUpdatingCameraPosition = false;
+
+	if (NormalizedTime < 1.f)
+	{
+		const float CurvedTime = TransitionCurve->GetFloatValue(NormalizedTime);
+
+		const FVector NewPosition = FMath::Lerp(StartingCameraShoulderPosition, CameraTargetShoulderPosition, CurvedTime);
+
+		FollowCamera->SetRelativeLocation(NewPosition);
+		
+		CurrentCameraTransitionDuration += DeltaTime;
+	}
+	else
+	{
+		FollowCamera->SetRelativeLocation(CameraTargetShoulderPosition);
+		IsUpdatingCameraPosition = false;
+	}
 }
 

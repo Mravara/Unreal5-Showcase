@@ -83,6 +83,9 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		// Zoom Camera
 		EnhancedInputComponent->BindAction(CameraZoomAction, ETriggerEvent::Triggered, this, &ABaseCharacter::ZoomCamera);
+
+		// Reposition Camera
+		EnhancedInputComponent->BindAction(CameraSwitchShoulderAction, ETriggerEvent::Triggered, this, &ABaseCharacter::CameraSwitchShoulder);
 	}
 }
 
@@ -181,6 +184,14 @@ void ABaseCharacter::ZoomCamera(const FInputActionValue& Value)
 		// CameraBoom->TargetArmLength = NewCameraZoom;
 
 		PlayerCameraManager->ZoomCamera(Value.Get<float>());
+	}
+}
+
+void ABaseCharacter::CameraSwitchShoulder()
+{
+	if (Controller)
+	{
+		PlayerCameraManager->SwitchShoulder();
 	}
 }
 

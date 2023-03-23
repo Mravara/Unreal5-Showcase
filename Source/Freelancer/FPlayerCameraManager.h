@@ -26,7 +26,7 @@ public:
 	void ZoomCamera(float Direction);
 
 	// Called when switching shoulders for the camera
-	void RepositionCamera();
+	void SwitchShoulder();
 	
 
 protected:
@@ -103,7 +103,7 @@ private:
 	void UpdateCameraZoom(const float DeltaTime);
 
 	// Called every frame while updating camera position
-	void UpdateCameraPosition(const float DeltaTime);
+	void UpdateCameraShoulderPosition(const float DeltaTime);
 
 	
 };
